@@ -17,36 +17,36 @@ jobs:
     steps:
       # Checkout core
       - name: Checkout layered_hardware
-        uses: actions/chechout@v2
+        uses: actions/checkout@v2
         with:
           repository: yoshito-n-students/layered_hardware
           path: src/layered_hardware
       # Checkout dynamixel
       - name: Checkout layered_hardware_dynamixel
-        uses: actions/chechout@v2
+        uses: actions/checkout@v2
         with:
           repository: yoshito-n-students/layered_hardware_dynamixel
           path: src/layered_hardware_dynamixel
       # Checkout epos
       - name: Checkout layered_hardware_epos
-        uses: actions/chechout@v2
+        uses: actions/checkout@v2
         with:
           repository: yoshito-n-students/layered_hardware_epos
           path: src/layered_hardware_epos
       # Checkout gazebo
       - name: Checkout layered_hardware_gazebo
-        uses: actions/chechout@v2
+        uses: actions/checkout@v2
         with:
           repository: yoshito-n-students/layered_hardware_gazebo
           path: src/layered_hardware_gazebo
       # Checkout misc
       - name: Checkout ros_controll_extensions
-        uses: actions/chechout@v2
+        uses: actions/checkout@v2
         with:
           repository: yoshito-n-students/ros_control_extensions
           path: src/ros_control_extensions
       - name: Checkout ros_controllers_extensions
-        uses: actions/chechout@v2
+        uses: actions/checkout@v2
         with:
           repository: yoshito-n-students/ros_controllers_extensions
           path: src/ros_controllers_extensions
