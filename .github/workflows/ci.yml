@@ -78,7 +78,7 @@ jobs:
           path: src/ros_controllers_extensions
       # Install dependencies
       - name: Install dart (from dart repo)
-        if: ${{ matrix.dart-repo }} == 'dart'
+        if: ${{ matrix.dart-repo == 'dart' }}
         run: |
           sudo apt update
           sudo apt --yes install software-properties-common
@@ -86,7 +86,7 @@ jobs:
           sudo apt update
           sudo apt --yes install libdart6-all-dev
       - name: Install dart (from ubuntu repo)
-        if: ${{ matrix.dart-repo }} == 'ubuntu'
+        if: ${{ matrix.dart-repo == 'ubuntu' }}
         run: |
           sudo apt update
           sudo apt --yes install libdart-all-dev
