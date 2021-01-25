@@ -29,7 +29,7 @@ jobs:
       image: ros:${{ matrix.rosdistro }}-ros-base
     defaults:
       run:
-        shell: bash
+        shell: script --quiet --return --command "bash {0}"
     steps:
       # System update
       - name: Run apt-upgrade
