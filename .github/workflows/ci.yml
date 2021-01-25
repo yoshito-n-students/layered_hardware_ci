@@ -7,7 +7,21 @@ jobs:
   ci:
     strategy:
       matrix:
-        rosdistro: [kinetic, melodic]
+        include:
+          - rosdistro: kinetic
+            dart-cmd: |
+              sudo apt update
+              sudo apt --yes install software-properties-common
+              sudo apt-add-repository ppa:dartsim/ppa
+              sudo apt update
+              sudo apt --yes install libdart6-all-dev
+          - rosdistro: melodic
+            dart-cmd: |
+              sudo apt update
+              sudo apt --yes install software-properties-common
+              sudo apt-add-repository ppa:dartsim/ppa
+              sudo apt update
+              sudo apt --yes install libdart6-all-dev
     runs-on: ubuntu-latest
     container:
       image: ros:${{ matrix.rosdistro }}-ros-base
@@ -54,11 +68,7 @@ jobs:
       - name: Install dependencies
         run: |
           source /opt/ros/${{ matrix.rosdistro }}/setup.bash
-          sudo apt update
-          sudo apt --yes install software-properties-common
-          sudo apt-add-repository ppa:dartsim/ppa
-          sudo apt update
-          sudo apt --yes install libdart6-all-dev
+          ${{ matrix.dart-cmd }}
           rosdep update
           sudo rosdep install --default-yes -r --ignore-src --from-paths src --rosdistro ${{ matrix.rosdistro }}
       # catkin_make
