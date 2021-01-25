@@ -1,5 +1,8 @@
 name: CI
 on:
+  schedule:
+    # 00:00 on Wednesday
+    - cron: '0 0 * * 3'
   push:
     branches:
       - devel
@@ -28,6 +31,11 @@ jobs:
       run:
         shell: bash
     steps:
+      # System update
+      - name: Run apt-upgrade
+        run: |
+          sudo apt update
+          sudo apt --yes upgrade
       # Checkout core
       - name: Checkout layered_hardware
         uses: actions/checkout@v2
