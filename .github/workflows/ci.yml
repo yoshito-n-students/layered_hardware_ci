@@ -56,7 +56,7 @@ jobs:
           source /opt/ros/${{ matrix.rosdistro }}/setup.bash
           sudo apt update
           rosdep update
-          sudo rosdep install --from-paths src --ignore-src --default-yes -r
+          sudo rosdep install --default-yes -r --ignore-src --from-paths src --rosdistro ${{ matrix.rosdistro }}
       # catkin_make
       - name: Build
         run: |
