@@ -6,6 +6,7 @@ on:
 jobs:
   ci:
     strategy:
+      fail-fast: false
       matrix:
         include:
           - rosdistro: kinetic
@@ -68,6 +69,11 @@ jobs:
         with:
           repository: yoshito-n-students/ros_controllers_extensions
           path: src/ros_controllers_extensions
+      - name: Checkout dynamixel_workbench
+        uses: actions/checkout@v2
+        with:
+          repository: ROBOTIS-GIT/dynamixel-workbench
+          path: src/dynamixel_workbench
       # Rosdep-install
       - name: Install dependencies
         run: |
