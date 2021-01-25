@@ -55,10 +55,10 @@ jobs:
         run: |
           source /opt/ros/${{ matrix.rosdistro }}/setup.bash
           sudo apt update
-          sudo apt install software-properties-common
+          sudo apt --yes install software-properties-common
           sudo apt-add-repository ppa:dartsim/ppa
           sudo apt update
-          sudo apt install libdart6-all-dev
+          sudo apt --yes install libdart6-all-dev
           rosdep update
           sudo rosdep install --default-yes -r --ignore-src --from-paths src --rosdistro ${{ matrix.rosdistro }}
       # catkin_make
