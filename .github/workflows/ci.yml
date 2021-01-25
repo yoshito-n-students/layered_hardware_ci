@@ -12,7 +12,8 @@ jobs:
     container:
       image: ros:${{ matrix.rosdistro }}-ros-base
     defaults:
-      shell: bash
+      run:
+        shell: bash
     steps:
       # Checkout core
       - name: Checkout layered_hardware
