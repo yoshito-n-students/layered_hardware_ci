@@ -29,7 +29,7 @@ jobs:
       image: ros:${{ matrix.rosdistro }}-ros-base
     defaults:
       run:
-        shell: script --quiet --return --command "bash {0}"
+        shell: 'script --quiet --return --command "bash {0}"'
     steps:
       # System update
       - name: Run apt-upgrade
@@ -90,7 +90,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt --yes install software-properties-common
-          sudo apt-add-repository ppa:dartsim/ppa
+          sudo apt-add-repository --yes ppa:dartsim/ppa
           sudo apt update
           sudo apt --yes install libdart6-all-dev
       - name: Install dart (from ubuntu repo)
