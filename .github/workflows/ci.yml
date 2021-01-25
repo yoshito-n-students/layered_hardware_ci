@@ -51,10 +51,11 @@ jobs:
           repository: yoshito-n-students/ros_controllers_extensions
           path: src/ros_controllers_extensions
       # Rosdep-install
-      - name: Run rosdep-install
+      - name: Install dependencies
         run: |
           source /opt/ros/${{ matrix.rosdistro }}/setup.bash
           sudo apt update
+          sudo apt install libdart6-all-dev
           rosdep update
           sudo rosdep install --default-yes -r --ignore-src --from-paths src --rosdistro ${{ matrix.rosdistro }}
       # catkin_make
