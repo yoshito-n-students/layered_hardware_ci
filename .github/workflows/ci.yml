@@ -54,6 +54,8 @@ jobs:
       - name: Install dependencies
         run: |
           source /opt/ros/${{ matrix.rosdistro }}/setup.bash
+          sudo apt update
+          sudo apt install software-properties-common
           sudo apt-add-repository ppa:dartsim/ppa
           sudo apt update
           sudo apt install libdart6-all-dev
