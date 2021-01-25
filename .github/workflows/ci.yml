@@ -75,7 +75,7 @@ jobs:
           ${{ matrix.dart-cmd }}
           sudo apt update
           rosdep update
-          sudo rosdep --default-yes -r --ignore-src --from-paths src --rosdistro ${{ matrix.rosdistro }} install
+          sudo rosdep install --default-yes -r --ignore-src --from-paths src --rosdistro ${{ matrix.rosdistro }}
       # catkin_make
       - name: Build
         run: |
