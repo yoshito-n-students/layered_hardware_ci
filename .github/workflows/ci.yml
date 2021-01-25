@@ -10,23 +10,17 @@ jobs:
       matrix:
         include:
           - rosdistro: kinetic
-            dart-cmd: |
-              sudo apt update
-              sudo apt --yes install software-properties-common
-              sudo apt-add-repository ppa:dartsim/ppa
-              sudo apt update
-              sudo apt --yes install libdart6-all-dev
+            dxl-wb-ref: kinetic-devel
+            dxl-wb-msgs-ref: kinetic-devel
+            dart-repo: dart
           - rosdistro: melodic
-            dart-cmd: |
-              sudo apt update
-              sudo apt --yes install software-properties-common
-              sudo apt-add-repository ppa:dartsim/ppa
-              sudo apt update
-              sudo apt --yes install libdart6-all-dev
+            dxl-wb-ref: melodic-devel
+            dxl-wb-msgs-ref: melodic-devel
+            dart-repo: dart
           - rosdistro: noetic
-            dart-cmd: |
-              sudo apt update
-              sudo apt --yes install libdart-all-dev
+            dxl-wb-ref: noetic-devel
+            dxl-wb-msgs-ref: melodic-devel # no noetic-devel
+            dart-repo: ubuntu
     runs-on: ubuntu-latest
     container:
       image: ros:${{ matrix.rosdistro }}-ros-base
@@ -58,6 +52,19 @@ jobs:
         with:
           repository: yoshito-n-students/layered_hardware_gazebo
           path: src/layered_hardware_gazebo
+      # Checkout dynamixel_workbench
+      - name: Checkout dynamixel_workbench
+        uses: actions/checkout@v2
+        with:
+          repository: ROBOTIS-GIT/dynamixel-workbench
+          ref: ${{ matrix.dxl-wb-ref }}
+          path: src/dynamixel_workbench
+      - name: Checkout dynamixel_workbench_msgs
+        uses: actions/checkout@v2
+        with:
+          repository: ROBOTIS-GIT/dynamixel-workbench-msgs
+          ref: ${{ matrix.dxl-wb-msgs-ref }}
+          path: src/dynamixel_workbench_msgs
       # Checkout misc
       - name: Checkout ros_controll_extensions
         uses: actions/checkout@v2
@@ -69,16 +76,23 @@ jobs:
         with:
           repository: yoshito-n-students/ros_controllers_extensions
           path: src/ros_controllers_extensions
-      - name: Checkout dynamixel_workbench
-        uses: actions/checkout@v2
-        with:
-          repository: ROBOTIS-GIT/dynamixel-workbench
-          path: src/dynamixel_workbench
-      # Rosdep-install
-      - name: Install dependencies
+      # Install dependencies
+      - name: Install dart (from dart repo)
+        if: ${{ matrix.dart-repo }} == 'dart'
+        run: |
+          sudo apt update
+          sudo apt --yes install software-properties-common
+          sudo apt-add-repository ppa:dartsim/ppa
+          sudo apt update
+          sudo apt --yes install libdart6-all-dev
+      - name: Install dart (from ubuntu repo)
+        if: ${{ matrix.dart-repo }} == 'ubuntu'
+        run: |
+          sudo apt update
+          sudo apt --yes install libdart-all-dev
+      - name: Run rosdep-install
         run: |
           source /opt/ros/${{ matrix.rosdistro }}/setup.bash
-          ${{ matrix.dart-cmd }}
           sudo apt update
           rosdep update
           sudo rosdep install --default-yes -r --ignore-src --from-paths src --rosdistro ${{ matrix.rosdistro }}
