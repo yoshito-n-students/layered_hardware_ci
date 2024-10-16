@@ -73,3 +73,28 @@ jobs:
         run: |
           source /opt/ros/noetic/setup.bash
           catkin_make run_tests
+  ci-humble:
+    runs-on: ubuntu-latest
+    container:
+      image: ros:humble-ros-base
+    defaults:
+      run:
+        shell: bash
+    steps:
+      # System update
+      - name: Run apt-upgrade
+        run: |
+          sudo apt update
+          sudo apt --yes upgrade
+      # Checkout core
+      - name: Checkout layered_hardware
+        uses: actions/checkout@v4
+        with:
+          repository: yoshito-n-students/layered_hardware
+          ref: humble
+          path: src/layered_hardware
+      # colcon build
+      - name: Build
+        run: |
+          source /opt/ros/humble/setup.bash
+          colcon build
