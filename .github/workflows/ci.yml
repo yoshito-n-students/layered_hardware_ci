@@ -20,6 +20,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt --yes upgrade
+          sudo apt install -y git
       # Checkout core
       - name: Checkout layered_hardware
         uses: actions/checkout@v4
@@ -44,6 +45,13 @@ jobs:
         with:
           repository: yoshito-n-students/layered_hardware_epos
           path: src/layered_hardware_epos
+      # Checkout unitree
+      - name: Checkout layered_hardware_unitree
+        uses: actions/checkout@v4
+        with:
+          repository: yoshito-n-students/layered_hardware_unitree
+          path: src/layered_hardware_unitree
+          submodules: true
       # Checkout gazebo
       - name: Checkout layered_hardware_gazebo
         uses: actions/checkout@v4
