@@ -7,23 +7,10 @@ on:
     branches:
       - devel
 jobs:
-  ci:
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - rosdistro: kinetic
-            dxl-wb-ref: kinetic-devel
-            dxl-wb-msgs-ref: kinetic-devel
-          - rosdistro: melodic
-            dxl-wb-ref: melodic-devel
-            dxl-wb-msgs-ref: melodic-devel
-          - rosdistro: noetic
-            dxl-wb-ref: noetic-devel
-            dxl-wb-msgs-ref: melodic-devel # no noetic-devel
+  ci-noetic:
     runs-on: ubuntu-latest
     container:
-      image: ros:${{ matrix.rosdistro }}-ros-base
+      image: ros:noetic-ros-base
     defaults:
       run:
         shell: bash
@@ -35,72 +22,54 @@ jobs:
           sudo apt --yes upgrade
       # Checkout core
       - name: Checkout layered_hardware
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: yoshito-n-students/layered_hardware
           path: src/layered_hardware
       # Checkout extensions
       - name: Checkout layered_hardware_extensions
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: yoshito-n-students/layered_hardware_extensions
           path: src/layered_hardware_extensions
       # Checkout dynamixel
       - name: Checkout layered_hardware_dynamixel
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: yoshito-n-students/layered_hardware_dynamixel
           path: src/layered_hardware_dynamixel
       # Checkout epos
       - name: Checkout layered_hardware_epos
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: yoshito-n-students/layered_hardware_epos
           path: src/layered_hardware_epos
       # Checkout gazebo
       - name: Checkout layered_hardware_gazebo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: yoshito-n-students/layered_hardware_gazebo
           path: src/layered_hardware_gazebo
-      # Checkout dynamixel_workbench (as never released on noetic)
-      - name: Checkout dynamixel_workbench
-        uses: actions/checkout@v2
-        with:
-          repository: ROBOTIS-GIT/dynamixel-workbench
-          ref: ${{ matrix.dxl-wb-ref }}
-          path: src/dynamixel_workbench
-      - name: Checkout dynamixel_workbench_msgs
-        uses: actions/checkout@v2
-        with:
-          repository: ROBOTIS-GIT/dynamixel-workbench-msgs
-          ref: ${{ matrix.dxl-wb-msgs-ref }}
-          path: src/dynamixel_workbench_msgs
       # Checkout misc
-      - name: Checkout ros_controll_extensions
-        uses: actions/checkout@v2
-        with:
-          repository: yoshito-n-students/ros_control_extensions
-          path: src/ros_control_extensions
       - name: Checkout ros_controllers_extensions
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: yoshito-n-students/ros_controllers_extensions
           path: src/ros_controllers_extensions
       # Install dependencies
       - name: Run rosdep-install
         run: |
-          source /opt/ros/${{ matrix.rosdistro }}/setup.bash
+          source /opt/ros/noetic/setup.bash
           sudo apt update
-          rosdep update --rosdistro ${{ matrix.rosdistro }}
-          sudo rosdep install --default-yes -r --ignore-src --from-paths src --rosdistro ${{ matrix.rosdistro }}
+          rosdep update --rosdistro noetic
+          sudo rosdep install --default-yes -r --ignore-src --from-paths src --rosdistro noetic
       # catkin_make
       - name: Build
         run: |
-          source /opt/ros/${{ matrix.rosdistro }}/setup.bash
+          source /opt/ros/noetic/setup.bash
           catkin_make
       # run_tests
       - name: Run tests
         run: |
-          source /opt/ros/${{ matrix.rosdistro }}/setup.bash
+          source /opt/ros/noetic/setup.bash
           catkin_make run_tests
