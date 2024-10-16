@@ -121,6 +121,13 @@ jobs:
           ref: humble
           path: src/layered_hardware_unitree
           submodules: true
+      # Checkout ignition
+      - name: Checkout layered_hardware_ign
+        uses: actions/checkout@v4
+        with:
+          repository: yoshito-n-students/layered_hardware_ign
+          ref: humble
+          path: src/layered_hardware_ign
       # Install dependencies
       - name: Run rosdep-install
         run: |
