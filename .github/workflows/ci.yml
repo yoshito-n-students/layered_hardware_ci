@@ -98,6 +98,21 @@ jobs:
           repository: yoshito-n-students/layered_hardware
           ref: humble
           path: src/layered_hardware
+      # Checkout dynamixel
+      - name: Checkout layered_hardware_dynamixel
+        uses: actions/checkout@v4
+        with:
+          repository: yoshito-n-students/layered_hardware_dynamixel
+          ref: humble
+          path: src/layered_hardware_dynamixel
+      # Checkout unitree
+      - name: Checkout layered_hardware_unitree
+        uses: actions/checkout@v4
+        with:
+          repository: yoshito-n-students/layered_hardware_unitree
+          ref: humble
+          path: src/layered_hardware_unitree
+          submodules: true
       # Install dependencies
       - name: Run rosdep-install
         run: |
