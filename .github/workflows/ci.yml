@@ -51,6 +51,11 @@ jobs:
           repository: yoshito-n-students/layered_hardware_gazebo
           path: src/layered_hardware_gazebo
       # Checkout misc
+      - name: Checkout ros_controll_extensions
+        uses: actions/checkout@v4
+        with:
+          repository: yoshito-n-students/ros_control_extensions
+          path: src/ros_control_extensions
       - name: Checkout ros_controllers_extensions
         uses: actions/checkout@v4
         with:
@@ -93,6 +98,13 @@ jobs:
           repository: yoshito-n-students/layered_hardware
           ref: humble
           path: src/layered_hardware
+      # Install dependencies
+      - name: Run rosdep-install
+        run: |
+          source /opt/ros/humble/setup.bash
+          sudo apt update
+          rosdep update --rosdistro humble
+          sudo rosdep install --default-yes -r --ignore-src --from-paths src --rosdistro humble
       # colcon build
       - name: Build
         run: |
