@@ -148,7 +148,7 @@ jobs:
           source /opt/ros/humble/setup.bash
           colcon build --event-handlers console_cohesion+
       # colcon test
-      - name: Build
+      - name: Test
         run: |
           source /opt/ros/humble/setup.bash
           colcon test --event-handlers console_cohesion+
