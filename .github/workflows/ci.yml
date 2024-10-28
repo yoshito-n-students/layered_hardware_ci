@@ -91,7 +91,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        rosdistro: [humble] #[humble, jazzy]
+        rosdistro: [humble, jazzy]
     runs-on: ubuntu-latest
     container:
       image: ros:${{ matrix.rosdistro }}-ros-base
@@ -140,6 +140,7 @@ jobs:
           repository: yoshito-n-students/layered_hardware_ign
           ref: humble
           path: src/layered_hardware_ign
+          if: rosdistro == "humble"
       # Install dependencies
       - name: Run rosdep-install
         run: |
