@@ -1,4 +1,5 @@
 name: CI
+
 on:
   schedule:
     # 00:00 on Wednesday
@@ -6,11 +7,16 @@ on:
   push:
     branches:
       - devel
+
 jobs:
-  ci-noetic:
+  build-check-on-ros1:
+    strategy:
+      fail-fast: false
+      matrix:
+        rosdistro: [noetic]
     runs-on: ubuntu-latest
     container:
-      image: ros:noetic-ros-base
+      image: ros:${{ matrix.rosdistro }}-ros-base
     defaults:
       run:
         shell: bash
@@ -72,22 +78,22 @@ jobs:
       # Install dependencies
       - name: Run rosdep-install
         run: |
-          source /opt/ros/noetic/setup.bash
+          source /opt/ros/${{ matrix.rosdistro }}/setup.bash
           sudo apt update
-          rosdep update --rosdistro noetic
-          sudo rosdep install --default-yes -r --ignore-src --from-paths src --rosdistro noetic
+          rosdep update --rosdistro ${{ matrix.rosdistro }}
+          sudo rosdep install --default-yes -r --ignore-src --from-paths src --rosdistro ${{ matrix.rosdistro }}
       # catkin_make
       - name: Build
         run: |
-          source /opt/ros/noetic/setup.bash
+          source /opt/ros/${{ matrix.rosdistro }}/setup.bash
           catkin_make
       # run_tests
       - name: Run tests
         run: |
-          source /opt/ros/noetic/setup.bash
+          source /opt/ros/${{ matrix.rosdistro }}/setup.bash
           catkin_make run_tests
 
-  ci-ros2:
+  build-check-on-ros2:
     strategy:
       fail-fast: false
       matrix:
