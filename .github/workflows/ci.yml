@@ -140,7 +140,7 @@ jobs:
           repository: yoshito-n-students/layered_hardware_ign
           ref: humble
           path: src/layered_hardware_ign
-        if: ${{ rosdistro == 'humble' }}
+        if: ${{ matrix.rosdistro == 'humble' }}
       # Install dependencies
       - name: Run rosdep-install
         run: |
