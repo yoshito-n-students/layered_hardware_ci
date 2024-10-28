@@ -86,10 +86,15 @@ jobs:
         run: |
           source /opt/ros/noetic/setup.bash
           catkin_make run_tests
-  ci-humble:
+
+  ci-ros2:
+    strategy:
+      fail-fast: false
+      matrix:
+        rosdistro: [humble, jazzy]
     runs-on: ubuntu-latest
     container:
-      image: ros:humble-ros-base
+      image: ros:${{ matrix.rosdistro }}-ros-base
     defaults:
       run:
         shell: bash
@@ -138,17 +143,17 @@ jobs:
       # Install dependencies
       - name: Run rosdep-install
         run: |
-          source /opt/ros/humble/setup.bash
+          source /opt/ros/${{ matrix.rosdistro }}/setup.bash
           sudo apt update
-          rosdep update --rosdistro humble
-          sudo rosdep install --default-yes -r --ignore-src --from-paths src --rosdistro humble
+          rosdep update --rosdistro ${{ matrix.rosdistro }}
+          sudo rosdep install --default-yes -r --ignore-src --from-paths src --rosdistro ${{ matrix.rosdistro }}
       # colcon build
       - name: Build
         run: |
-          source /opt/ros/humble/setup.bash
+          source /opt/ros/${{ matrix.rosdistro }}/setup.bash
           colcon build --event-handlers console_cohesion+
       # colcon test
       - name: Test
         run: |
-          source /opt/ros/humble/setup.bash
+          source /opt/ros/${{ matrix.rosdistro }}/setup.bash
           colcon test --event-handlers console_cohesion+
