@@ -122,21 +122,21 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: yoshito-n-students/layered_hardware_dynamixel
-          ref: humble
+          ref: ${{ matrix.rosdistro }}
           path: src/layered_hardware_dynamixel
       # Checkout epos
       - name: Checkout layered_hardware_epos
         uses: actions/checkout@v4
         with:
           repository: yoshito-n-students/layered_hardware_epos
-          ref: humble
+          ref: ${{ matrix.rosdistro }}
           path: src/layered_hardware_epos
       # Checkout unitree
       - name: Checkout layered_hardware_unitree
         uses: actions/checkout@v4
         with:
           repository: yoshito-n-students/layered_hardware_unitree
-          ref: humble
+          ref: ${{ matrix.rosdistro }}
           path: src/layered_hardware_unitree
           submodules: true
       # Checkout ignition
@@ -145,7 +145,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: yoshito-n-students/layered_hardware_ign
-          ref: humble
+          ref: ${{ matrix.rosdistro }}
           path: src/layered_hardware_ign
       # Install dependencies
       - name: Run rosdep-install
