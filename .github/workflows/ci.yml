@@ -109,7 +109,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: yoshito-n-students/layered_hardware
-          ref: humble
+          ref: ${{ matrix.rosdistro }}
           path: src/layered_hardware
       # Checkout dynamixel
       - name: Checkout layered_hardware_dynamixel
@@ -135,12 +135,12 @@ jobs:
           submodules: true
       # Checkout ignition
       - name: Checkout layered_hardware_ign
+        if: ${{ matrix.rosdistro == 'humble' }}
         uses: actions/checkout@v4
         with:
           repository: yoshito-n-students/layered_hardware_ign
           ref: humble
           path: src/layered_hardware_ign
-        if: ${{ matrix.rosdistro == 'humble' }}
       # Install dependencies
       - name: Run rosdep-install
         run: |
