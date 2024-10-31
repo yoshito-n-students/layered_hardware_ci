@@ -141,7 +141,6 @@ jobs:
           submodules: true
       # Checkout ignition
       - name: Checkout layered_hardware_ign
-        if: ${{ matrix.rosdistro == 'humble' }}
         uses: actions/checkout@v4
         with:
           repository: yoshito-n-students/layered_hardware_ign
